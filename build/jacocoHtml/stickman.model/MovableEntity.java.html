@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MovableEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">MovableEntity.java</span></div><h1>MovableEntity.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+<span class="fc" id="L3">public abstract class MovableEntity extends Entity{</span>
+
+    protected int timer;
+    protected int jumpTimer;
+
+    protected boolean ismovingRight;
+    protected boolean ismovingLeft;
+    protected boolean isJumping;
+    protected boolean isComingDown;
+
+    protected double velX;
+    protected double velY;
+<span class="fc" id="L15">    protected boolean Xdirection = true; // ture for right, false for left</span>
+<span class="fc" id="L16">    protected boolean Ydirection = true;</span>
+
+    public double setXVelocity(double velX){
+<span class="nc" id="L19">        return this.velX = velX;</span>
+    }   // set the horizontal velocity
+
+    public double setYVelocity(double velY){
+<span class="nc" id="L23">        return this.velY = velY;</span>
+    }   // set the vertical velocity
+
+    public boolean setXDirection(boolean d){
+<span class="fc" id="L27">        return this.Xdirection = d;</span>
+    }      // change the vertical direction  true for right false for left
+
+    public boolean setYDirection(boolean d){
+<span class="nc" id="L31">        return this.Ydirection = d; // by far only for hero, may be added in MovableEntity Interface in the next stage</span>
+    }
+                                        // y direction can be added for further development
+    abstract void changYLocation();     // change the vertical location using y velocity
+    abstract void changXLocation();     // change the horizontal location using x velocity
+    abstract void tick();
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="stickman.model.TestLevel" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-10-06T12:42:20" hostname="BuiBuiBui.local" time="0.003">
+  <properties/>
+  <testcase name="simpleLevel" classname="stickman.model.TestLevel" time="0.001"/>
+  <testcase name="emptyLevel" classname="stickman.model.TestLevel" time="0.0"/>
+  <testcase name="buildLevel" classname="stickman.model.TestLevel" time="0.001"/>
+  <testcase name="emptyLevel2" classname="stickman.model.TestLevel" time="0.0"/>
+  <testcase name="notVerySimpleLevelTest" classname="stickman.model.TestLevel" time="0.001"/>
+  <system-out><![CDATA[life : 1
+life : 0
+life : 1
+life : 1
+life : 1
+life : 100
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

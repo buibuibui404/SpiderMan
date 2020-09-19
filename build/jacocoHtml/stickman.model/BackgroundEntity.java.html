@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BackgroundEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">BackgroundEntity.java</span></div><h1>BackgroundEntity.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+public abstract class BackgroundEntity extends Entity {
+    protected double velX;
+
+<span class="fc" id="L6">    public BackgroundEntity(String path, double XPos, double YPos, double vX, double height, double width){</span>
+<span class="fc" id="L7">        this.layer = Layer.BACKGROUND;</span>
+<span class="fc" id="L8">        this.mainPath = path;</span>
+<span class="fc" id="L9">        this.posX = XPos;</span>
+<span class="fc" id="L10">        this.posY = YPos;</span>
+<span class="fc" id="L11">        this.velX = vX;</span>
+<span class="fc" id="L12">        this.height = height;</span>
+<span class="fc" id="L13">        this.width = width;</span>
+<span class="fc" id="L14">    }</span>
+
+<span class="fc" id="L16">    public BackgroundEntity(String path, double XPos, double YPos, double vX){</span>
+<span class="fc" id="L17">        this.layer = Layer.BACKGROUND;</span>
+<span class="fc" id="L18">        this.mainPath = path;</span>
+<span class="fc" id="L19">        this.posX = XPos;</span>
+<span class="fc" id="L20">        this.posY = YPos;</span>
+<span class="fc" id="L21">        this.velX = vX;</span>
+<span class="fc" id="L22">        this.height = height;</span>
+<span class="fc" id="L23">        this.width = width;</span>
+<span class="fc" id="L24">    }</span>
+
+    public void changXLocation(){
+<span class="nc" id="L27">        this.posX += this.velX / 60;</span>
+<span class="nc" id="L28">    }</span>
+
+    public void tick(){
+<span class="nc" id="L31">        this.changXLocation();</span>
+<span class="nc" id="L32">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

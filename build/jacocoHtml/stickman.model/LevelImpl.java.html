@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LevelImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">LevelImpl.java</span></div><h1>LevelImpl.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class LevelImpl implements Level {
+    private List&lt;Entity&gt; entities;
+    private List&lt;Platform&gt; platforms;
+    private List&lt;Enemy&gt; enemies;
+    private List&lt;BackgroundEntity&gt; backgroundEntities;
+    private Hero hero;
+    private double finishLine;
+
+
+<span class="fc" id="L15">    public LevelImpl(Hero hero, double finishLine, List&lt;Entity&gt; entities, List&lt;Platform&gt; platforms, List&lt;Enemy&gt; enemies, List&lt;BackgroundEntity&gt; backgroundEntities ){</span>
+<span class="fc" id="L16">        this.entities = entities;</span>
+<span class="fc" id="L17">        this.platforms = platforms;</span>
+<span class="fc" id="L18">        this.enemies = enemies;</span>
+<span class="fc" id="L19">        this.backgroundEntities = backgroundEntities;</span>
+<span class="fc" id="L20">        this.hero = hero;</span>
+<span class="fc" id="L21">        this.finishLine = finishLine;</span>
+<span class="fc" id="L22">}</span>
+
+    @Override
+    public List&lt;Entity&gt; getEntities(){
+<span class="nc" id="L26">        return this.entities;</span>
+    }
+
+    @Override
+    public double getHeight(){
+<span class="fc" id="L31">        return this.hero.getHeight();</span>
+    }
+
+    @Override
+    public double getWidth(){
+<span class="fc" id="L36">        return this.hero.getWidth();</span>
+    }
+
+    @Override
+    public void tick(){
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if(getHeroX() &gt;= finishLine){</span>
+<span class="nc" id="L42">            System.exit(0);</span>
+        }
+
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for(Entity e : platforms){</span>
+<span class="fc" id="L46">            hero.see(e);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            for( Enemy n: enemies){</span>
+<span class="fc" id="L48">                n.see(e);</span>
+<span class="fc" id="L49">            }</span>
+<span class="fc" id="L50">        }  // all movableEntity will not intersect with any platform</span>
+
+<span class="fc" id="L52">        List&lt;Enemy&gt; tempo = new LinkedList&lt;&gt;();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">        for( Enemy n: enemies){</span>
+<span class="fc" id="L54">            hero.see( n);</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            if(n.isDead()){</span>
+<span class="nc" id="L56">                tempo.add(n);</span>
+            }
+
+<span class="fc" id="L59">            n.reflect();</span>
+<span class="fc" id="L60">            n.think();</span>
+<span class="fc" id="L61">        }</span>
+
+<span class="fc" id="L63">        entities.removeAll(tempo);</span>
+<span class="fc" id="L64">        enemies.removeAll(tempo);</span>
+
+<span class="fc" id="L66">        hero.tick();</span>
+
+<span class="fc bfc" id="L68" title="All 2 branches covered.">        for(MovableEntity e: enemies){</span>
+<span class="fc" id="L69">            e.tick();</span>
+<span class="fc" id="L70">        }</span>
+
+<span class="fc" id="L72">    }</span>
+
+    @Override
+    public double getFloorHeight(){
+<span class="fc" id="L76">        return 330;</span>
+    }
+
+    @Override
+    public double getHeroX(){
+<span class="fc" id="L81">        return this.hero.getXPos();</span>
+    }
+
+    @Override
+    public boolean jump(){
+<span class="fc" id="L86">        this.hero.jump();</span>
+<span class="fc" id="L87">        return true;</span>
+    }
+
+    @Override
+    public boolean moveLeft(){
+<span class="fc" id="L92">        this.hero.moveLeft();</span>
+<span class="fc" id="L93">        return true;</span>
+    }
+
+    @Override
+    public boolean moveRight(){
+<span class="fc" id="L98">        this.hero.moveRight();</span>
+<span class="fc" id="L99">        return true;</span>
+    }
+
+    @Override
+    public boolean stopMoving(){
+<span class="fc" id="L104">        this.hero.stopMoving();</span>
+<span class="fc" id="L105">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

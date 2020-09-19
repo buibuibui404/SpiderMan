@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameEngineImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">GameEngineImpl.java</span></div><h1>GameEngineImpl.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+public class GameEngineImpl implements GameEngine {
+    private Level lv;
+
+<span class="fc" id="L6">    public GameEngineImpl(String info) {</span>
+<span class="fc" id="L7">        LeveLinfoBridge.hardcodeRead(info);</span>
+<span class="fc" id="L8">        LevelBuilder lb = new LevelBuilderImpl();</span>
+
+<span class="fc" id="L10">        lb.addFinishLine(LeveLinfoBridge.finishLine);</span>
+<span class="fc" id="L11">        lb.setHero(new Hero(LeveLinfoBridge.stickmanSize, LeveLinfoBridge.stickmanPosX, LeveLinfoBridge.stickmanLife));</span>
+
+<span class="fc bfc" id="L13" title="All 2 branches covered.">        for(int i= 0; i &lt; LeveLinfoBridge.PlatformPositions.size(); i++){</span>
+<span class="fc" id="L14">            lb.addPlatform(new NormalPlatform(LeveLinfoBridge.PlatformPositions.get(i).get(0),</span>
+<span class="fc" id="L15">                    LeveLinfoBridge.PlatformPositions.get(i).get(1)</span>
+                    ));
+        }
+
+<span class="fc bfc" id="L19" title="All 2 branches covered.">        for(int i = 0; i &lt; LeveLinfoBridge.RedSlimePosition.size(); i++){</span>
+<span class="fc" id="L20">            lb.addEnemy(new RedSlime(LeveLinfoBridge.RedSlimePosition.get(i).get(0),</span>
+<span class="fc" id="L21">                    LeveLinfoBridge.RedSlimePosition.get(i).get(1)</span>
+            ));
+        }
+
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        for(int i = 0; i &lt; LeveLinfoBridge.GreenSlimePosition.size(); i++){</span>
+<span class="fc" id="L26">            lb.addEnemy(new GreenSlime(LeveLinfoBridge.GreenSlimePosition.get(i).get(0),</span>
+<span class="fc" id="L27">                    LeveLinfoBridge.GreenSlimePosition.get(i).get(1)</span>
+            ));
+        }
+
+<span class="fc bfc" id="L31" title="All 2 branches covered.">        for(int i = 0; i &lt; LeveLinfoBridge.BlueSlimePositions.size(); i++){</span>
+<span class="fc" id="L32">            lb.addEnemy(new BlueSlime(LeveLinfoBridge.BlueSlimePositions.get(i).get(0),</span>
+<span class="fc" id="L33">                    LeveLinfoBridge.BlueSlimePositions.get(i).get(1)</span>
+            ));
+        }
+
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        for(int i = 0; i &lt; LeveLinfoBridge.CloudsPosition.size(); i++){</span>
+<span class="fc" id="L38">            lb.addBackground(new Cloud(LeveLinfoBridge.CloudsPosition.get(i).get(0),</span>
+<span class="fc" id="L39">                    LeveLinfoBridge.CloudsPosition.get(i).get(1),</span>
+                    LeveLinfoBridge.cloudVelocity
+            ));
+        }
+
+<span class="fc" id="L44">        lb.addBackground(new FinishLine(LeveLinfoBridge.finishLine,330,0));</span>
+
+
+
+<span class="fc" id="L48">        lv = lb.build();</span>
+
+<span class="fc" id="L50">    }</span>
+
+    @Override
+    public Level getCurrentLevel() {
+<span class="nc" id="L54">        return this.lv;</span>
+    }
+
+    @Override
+    public void startLevel() {
+<span class="nc" id="L59">    }</span>
+
+    @Override
+    public boolean jump() {
+<span class="fc" id="L63">        this.lv.jump();</span>
+<span class="fc" id="L64">        return true;</span>
+    }
+
+    @Override
+    public boolean moveLeft() {
+<span class="fc" id="L69">        this.lv.moveLeft();</span>
+<span class="fc" id="L70">        return true;</span>
+    }
+
+    @Override
+    public boolean moveRight() {
+<span class="fc" id="L75">        this.lv.moveRight();</span>
+<span class="fc" id="L76">        return true;</span>
+    }
+
+    @Override
+    public boolean stopMoving() {
+<span class="fc" id="L81">        this.lv.stopMoving();</span>
+<span class="fc" id="L82">        return true;</span>
+    }
+
+    @Override
+    public void tick() {
+<span class="fc" id="L87">        this.lv.tick();</span>
+<span class="fc" id="L88">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

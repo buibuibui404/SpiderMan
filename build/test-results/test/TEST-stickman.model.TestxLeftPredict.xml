@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="stickman.model.TestxLeftPredict" tests="5" skipped="0" failures="0" errors="0" timestamp="2019-10-06T12:42:20" hostname="BuiBuiBui.local" time="0.001">
+  <properties/>
+  <testcase name="testGetInfo1" classname="stickman.model.TestxLeftPredict" time="0.0"/>
+  <testcase name="testGetInfo2" classname="stickman.model.TestxLeftPredict" time="0.0"/>
+  <testcase name="testGetInfo3" classname="stickman.model.TestxLeftPredict" time="0.001"/>
+  <testcase name="testGetInfo4" classname="stickman.model.TestxLeftPredict" time="0.0"/>
+  <testcase name="testGetInfo5" classname="stickman.model.TestxLeftPredict" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LevelBuilderImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">LevelBuilderImpl.java</span></div><h1>LevelBuilderImpl.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class LevelBuilderImpl implements LevelBuilder {
+    private List&lt;Entity&gt; entities;
+    private List&lt;Platform&gt; platforms;
+    private List&lt;Enemy&gt; enemies;
+    private List&lt;BackgroundEntity&gt; bg;
+    private Hero hero;
+    private double finishLine;
+
+<span class="fc" id="L14">    public LevelBuilderImpl(){</span>
+<span class="fc" id="L15">        entities = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L16">        platforms = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L17">        enemies = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L18">        bg = new LinkedList&lt;&gt;();</span>
+<span class="fc" id="L19">    }</span>
+
+    @Override
+    public void setHero(Hero h) {
+<span class="fc" id="L23">        hero = h;</span>
+<span class="fc" id="L24">        addEntity(h);</span>
+<span class="fc" id="L25">    }</span>
+
+    @Override
+    public void addEntity(Entity e) {
+<span class="fc" id="L29">        entities.add(e);</span>
+<span class="fc" id="L30">    }</span>
+
+    @Override
+    public void addPlatform(Platform p) {
+<span class="fc" id="L34">        platforms.add(p);</span>
+<span class="fc" id="L35">        addEntity(p);</span>
+<span class="fc" id="L36">    }</span>
+
+    @Override
+    public void addEnemy(Enemy e) {
+<span class="fc" id="L40">        enemies.add(e);</span>
+<span class="fc" id="L41">        addEntity(e);</span>
+<span class="fc" id="L42">    }</span>
+
+    @Override
+    public void addBackground(BackgroundEntity b) {
+<span class="fc" id="L46">        bg.add(b);</span>
+<span class="fc" id="L47">        addEntity(b);</span>
+<span class="fc" id="L48">    }</span>
+
+    @Override
+    public void addFinishLine(double d) {
+<span class="fc" id="L52">        finishLine = d;</span>
+<span class="fc" id="L53">    }</span>
+
+    @Override
+    public Level build() {
+<span class="fc" id="L57">        return new LevelImpl(hero,finishLine,entities,platforms,enemies,bg);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RedSlime.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">RedSlime.java</span></div><h1>RedSlime.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+public class RedSlime extends Enemy{
+    private AutoStrategy autoJump;
+    private AutoStrategy autoMove;
+
+    public RedSlime(double posX, double posY){
+<span class="fc" id="L8">        super(posX, posY);</span>
+<span class="fc" id="L9">        this.velX = 2;</span>
+<span class="fc" id="L10">        this.velY = -2;</span>
+<span class="fc" id="L11">        this.mainPath = &quot;slimeRa.png&quot;;</span>
+
+<span class="fc" id="L13">        this.width = 63;</span>
+<span class="fc" id="L14">        this.height = 45;</span>
+
+<span class="fc" id="L16">        this.Hp = 1;</span>
+<span class="fc" id="L17">        autoJump = new AutoJump();</span>
+<span class="fc" id="L18">        autoMove = new AutoXmove();</span>
+<span class="fc" id="L19">    }</span>
+
+    @Override
+    void changYLocation() {
+<span class="fc" id="L23">        autoJump.getInfo(this);</span>
+<span class="fc" id="L24">        posY = autoJump.getValue();</span>
+<span class="fc" id="L25">        autoJump.update(this);</span>
+
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    void changXLocation() {
+<span class="fc" id="L31">        autoMove.getInfo(this);</span>
+<span class="fc" id="L32">        this.posX = autoMove.getValue();</span>
+<span class="fc" id="L33">        autoMove.update(this);</span>
+<span class="fc" id="L34">    }</span>
+
+    @Override
+    void tick() {
+
+<span class="pc bpc" id="L39" title="2 of 4 branches missed.">        if( !isJumping &amp;&amp; !isComingDown){</span>
+<span class="fc" id="L40">            changXLocation();</span>
+        }
+<span class="fc" id="L42">        changYLocation();</span>
+
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">        if( this.timer &lt; 90){</span>
+<span class="fc" id="L45">            setXDirection(true);</span>
+        }else{
+<span class="nc" id="L47">            setXDirection(false);</span>
+        }
+
+<span class="pc bpc" id="L50" title="5 of 6 branches missed.">        if (this.timer == 75 &amp;&amp; !isComingDown &amp;&amp; !isJumping){</span>
+<span class="nc" id="L51">            isJumping = true;</span>
+        }
+
+<span class="pc bpc" id="L54" title="3 of 4 branches missed.">        if (this.timer == 90 &amp;&amp; isJumping){</span>
+<span class="nc" id="L55">            isJumping = false;</span>
+        }
+
+
+<span class="fc" id="L59">        this.timer += 1;</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if( this.timer &gt;= 180 ){</span>
+<span class="nc" id="L61">            timer = 0;</span>
+        }
+<span class="fc" id="L63">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

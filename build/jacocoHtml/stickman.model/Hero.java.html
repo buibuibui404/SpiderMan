@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Hero.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">NewA1</a> &gt; <a href="index.source.html" class="el_package">stickman.model</a> &gt; <span class="el_source">Hero.java</span></div><h1>Hero.java</h1><pre class="source lang-java linenums">package stickman.model;
+
+import javax.swing.*;
+import java.util.ArrayList;
+
+public class Hero extends MovableEntity implements Controllable, Detectable, LifeKit, FightKit {
+
+    private Strategy leftED;
+    private Strategy rightED;
+    private Strategy downED;
+    private Strategy upED;
+    private double leftE;
+    private double rightE;
+    private double downE;
+    private double upE;
+    private double a;
+
+    private Strategy xR;
+    private Strategy xL;
+    private Strategy yU;
+    private Strategy yD;
+    private double leftB;
+    private double rightB;
+<span class="fc" id="L24">    private double upB = 430;</span>
+<span class="fc" id="L25">    private double downB = 330;</span>
+
+    private double oriX;
+    public int life;
+<span class="fc" id="L29">    private double tempVy = 0.0;</span>
+
+    private int Hp;
+    private boolean dead;
+
+<span class="fc" id="L34">    public Hero(String size, double posX, int l){</span>
+<span class="fc" id="L35">        a = 1/30.0;</span>
+
+<span class="fc" id="L37">        life = l;</span>
+<span class="fc" id="L38">        oriX = posX;</span>
+<span class="fc" id="L39">        this.dead = false;</span>
+<span class="fc" id="L40">        this.Hp = 1;</span>
+
+<span class="fc" id="L42">        this.layer = Layer.FOREGROUND;</span>
+<span class="fc" id="L43">        this.posX = posX;</span>
+
+<span class="pc bpc" id="L45" title="4 of 5 branches missed.">        switch (size) {</span>
+            case &quot;tiny&quot;:
+<span class="fc" id="L47">                this.width = 20;</span>
+<span class="fc" id="L48">                this.height = 34;</span>
+<span class="fc" id="L49">                this.posY = 330 - this.height;</span>
+<span class="fc" id="L50">                break;</span>
+            case &quot;normal&quot;:
+<span class="nc" id="L52">                this.width = 25;</span>
+<span class="nc" id="L53">                this.height = 42;</span>
+<span class="nc" id="L54">                this.posY = 330 - this.height;</span>
+<span class="nc" id="L55">                break;</span>
+            case &quot;large&quot;:
+<span class="nc" id="L57">                this.width = 30;</span>
+<span class="nc" id="L58">                this.height = 51;</span>
+<span class="nc" id="L59">                this.posY = 330 - this.height;</span>
+<span class="nc" id="L60">                break;</span>
+            case &quot;giant&quot;:
+<span class="nc" id="L62">                this.width = 35;</span>
+<span class="nc" id="L63">                this.height = 60;</span>
+<span class="nc" id="L64">                this.posY = 330 - this.height;</span>
+        }
+
+<span class="fc" id="L67">        this.mainPath = &quot;ch_stand1.png&quot;;</span>
+<span class="fc" id="L68">        this.velY = -3;</span>
+<span class="fc" id="L69">        this.velX = 2;</span>
+
+<span class="fc" id="L71">        this.timer = 0;</span>
+<span class="fc" id="L72">        this.jumpTimer = 0;</span>
+<span class="fc" id="L73">        this.ismovingLeft = false;</span>
+<span class="fc" id="L74">        this.ismovingRight = false;</span>
+<span class="fc" id="L75">        this.isJumping = false;</span>
+
+<span class="fc" id="L77">        this.xR = new xRightPredict();</span>
+<span class="fc" id="L78">        this.xL = new xLeftPredict();</span>
+<span class="fc" id="L79">        this.yU = new yUpPredict();</span>
+<span class="fc" id="L80">        this.yD = new yDownPredict();</span>
+<span class="fc" id="L81">        xR.update(this);</span>
+<span class="fc" id="L82">        xL.update(this);</span>
+<span class="fc" id="L83">        yU.update(this);</span>
+<span class="fc" id="L84">        yD.update(this);</span>
+
+<span class="fc" id="L86">        this.leftED = new xLeftPredict();</span>
+<span class="fc" id="L87">        this.rightED = new xRightPredict();</span>
+<span class="fc" id="L88">        this.upED = new yUpPredict();</span>
+<span class="fc" id="L89">        this.downED = new yDownPredict();</span>
+
+<span class="fc" id="L91">        System.out.println(&quot;life : &quot;+life);</span>
+
+<span class="fc" id="L93">    }</span>
+
+    @Override
+    public String getImagePath(){
+//        System.out.println(mainPath);
+<span class="nc" id="L98">        this.mainPath = pathChanger();</span>
+<span class="nc" id="L99">        return this.mainPath;</span>
+    }
+
+    public String pathChanger(){
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if ( this.ismovingLeft ){</span>
+<span class="nc bnc" id="L104" title="All 5 branches missed.">            switch (this.timer){</span>
+                case 0:
+<span class="nc" id="L106">                    return &quot;ch_walk5.png&quot;;</span>
+                case 15:
+<span class="nc" id="L108">                    return &quot;ch_walk6.png&quot;;</span>
+                case 30:
+<span class="nc" id="L110">                    return &quot;ch_walk7.png&quot;;</span>
+                case 45:
+<span class="nc" id="L112">                    return &quot;ch_walk8.png&quot;;</span>
+            }
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        }else if (this.ismovingRight ){</span>
+<span class="nc bnc" id="L115" title="All 5 branches missed.">            switch (this.timer){</span>
+                case 0:
+<span class="nc" id="L117">                    return &quot;ch_walk1.png&quot;;</span>
+                case 15:
+<span class="nc" id="L119">                    return &quot;ch_walk2.png&quot;;</span>
+                case 30:
+<span class="nc" id="L121">                    return &quot;ch_walk3.png&quot;;</span>
+                case 45:
+<span class="nc" id="L123">                    return &quot;ch_walk4.png&quot;;</span>
+            }
+<span class="nc bnc" id="L125" title="All 4 branches missed.">        }else if( !this.isJumping &amp;&amp; this.Xdirection ) {</span>
+<span class="nc bnc" id="L126" title="All 4 branches missed.">            switch (this.timer) {</span>
+                case 20:
+<span class="nc" id="L128">                    return &quot;ch_stand2.png&quot;;</span>
+                case 40:
+<span class="nc" id="L130">                    return &quot;ch_stand3.png&quot;;</span>
+                case 60:
+<span class="nc" id="L132">                    return &quot;ch_stand1.png&quot;;</span>
+            }
+<span class="nc bnc" id="L134" title="All 4 branches missed.">        }else if( !this.isJumping &amp;&amp; !this.Xdirection ) {</span>
+<span class="nc bnc" id="L135" title="All 4 branches missed.">            switch (this.timer) {</span>
+                case 20:
+<span class="nc" id="L137">                    return &quot;ch_stand4.png&quot;;</span>
+                case 40:
+<span class="nc" id="L139">                    return &quot;ch_stand5.png&quot;;</span>
+                case 60:
+<span class="nc" id="L141">                    return &quot;ch_stand6.png&quot;;</span>
+            }
+        }
+<span class="nc" id="L144">        return this.mainPath;</span>
+    }
+
+    @Override
+    public void changXLocation(){
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if ( this.Xdirection ){</span>
+<span class="fc bfc" id="L150" title="All 2 branches covered.">            if ( this.posX + this.velX &gt; this.rightB - this.width ){</span>
+//                this.posX -= this.velX;
+<span class="fc" id="L152">                this.posX = this.rightB - this.width - 1;</span>
+            }else{
+<span class="fc" id="L154">                this.posX += this.velX;</span>
+            }
+        }else{
+<span class="pc bpc" id="L157" title="2 of 4 branches missed.">            if(this.posX - this.velX &lt; 0 || this.posX - this.velX &lt; this.leftB ){</span>
+<span class="nc" id="L158">                this.posX = this.leftB + 1;</span>
+
+            }else{
+<span class="fc" id="L161">                this.posX -= this.velX;</span>
+            }
+        }
+
+<span class="fc" id="L165">    }</span>
+
+    @Override
+    public void changYLocation(){
+<span class="fc bfc" id="L169" title="All 2 branches covered.">        if(velY &lt;= 0){</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">            if(this.posY + velY &gt; this.upB){</span>
+<span class="nc" id="L171">                velY += a;</span>
+<span class="nc" id="L172">                posY += velY;</span>
+            }else{
+<span class="fc" id="L174">                velY += a;</span>
+<span class="fc" id="L175">                velY = -velY;</span>
+            }
+        }else{
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">            if(this.posY + velY + height &lt; this.downB ){</span>
+<span class="nc" id="L179">                velY += a;</span>
+<span class="nc" id="L180">                posY += velY;</span>
+            }else{
+<span class="fc" id="L182">                this.posY = this.downB - this.height;</span>
+<span class="fc" id="L183">                this.velY = -3;</span>
+<span class="fc" id="L184">                isJumping = false;</span>
+
+            }
+        } // could become a strategy in further development
+
+<span class="fc" id="L189">    }</span>
+
+    @Override
+    public boolean moveRight(){
+<span class="fc" id="L193">        this.ismovingRight = true;</span>
+<span class="fc" id="L194">        return true;</span>
+    }
+
+    @Override
+    public boolean moveLeft(){
+<span class="fc" id="L199">        this.ismovingLeft = true;</span>
+<span class="fc" id="L200">        return true;</span>
+    }
+
+    @Override
+    public boolean stopMoving(){
+<span class="fc" id="L205">        this.ismovingLeft = false;</span>
+<span class="fc" id="L206">        this.ismovingRight = false;</span>
+<span class="fc" id="L207">        return true;</span>
+    }
+
+    @Override
+    public boolean jump(){
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">        if( !this.isComingDown ){</span>
+<span class="fc" id="L213">            this.isJumping = true;</span>
+        }
+<span class="fc" id="L215">        return true;</span>
+    }
+
+    public void fallingDown(){
+<span class="nc" id="L219">        tempVy +=a;</span>
+<span class="nc" id="L220">        this.posY += tempVy;</span>
+<span class="nc bnc" id="L221" title="All 2 branches missed.">        if(posY + height &gt; downB){</span>
+<span class="nc" id="L222">            posY = downB - height;</span>
+        }
+<span class="nc" id="L224">    }</span>
+
+    @Override
+    public void tick(){
+<span class="pc bpc" id="L228" title="3 of 4 branches missed.">        if(posY + height &lt; downB &amp;&amp; !isJumping){</span>
+<span class="nc" id="L229">            fallingDown();</span>
+        }
+
+<span class="fc bfc" id="L232" title="All 2 branches covered.">        if(this.isJumping){</span>
+<span class="fc" id="L233">            changYLocation();</span>
+        }
+
+<span class="pc bpc" id="L236" title="1 of 2 branches missed.">        if ( isDead()){</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">            if (life &gt; 0){</span>
+<span class="nc" id="L238">                revive();</span>
+            }else{
+<span class="nc" id="L240">                System.exit(0);</span>
+            }
+        }
+
+<span class="fc" id="L244">        reflect();</span>
+<span class="fc" id="L245">        think();</span>
+
+<span class="pc bpc" id="L247" title="1 of 2 branches missed.">        if( this.ismovingLeft ){</span>
+<span class="nc" id="L248">            this.setXDirection( false );</span>
+<span class="nc" id="L249">            this.changXLocation();</span>
+<span class="pc bpc" id="L250" title="1 of 2 branches missed.">        }else if ( this.ismovingRight ){</span>
+<span class="nc" id="L251">            this.setXDirection( true );</span>
+<span class="nc" id="L252">            this.changXLocation();</span>
+        }
+
+<span class="fc" id="L255">        this.timer += 1;</span>
+<span class="pc bpc" id="L256" title="1 of 2 branches missed.">        if( this.timer &gt;= 60){</span>
+<span class="nc" id="L257">            this.timer = 0;</span>
+        }
+<span class="fc" id="L259">    }</span>
+
+    @Override
+    public void see(Entity e){
+<span class="fc" id="L263">        this.xR.getInfo(e);</span>
+<span class="fc" id="L264">        this.xL.getInfo(e);</span>
+<span class="fc" id="L265">        this.yU.getInfo(e);</span>
+<span class="fc" id="L266">        this.yD.getInfo(e);</span>
+<span class="fc" id="L267">    }</span>
+
+    public void see(Enemy e){
+<span class="fc bfc" id="L270" title="All 2 branches covered.">        if ( isInRang(e)){</span>
+<span class="fc" id="L271">            attack(e);</span>
+        }
+<span class="fc bfc" id="L273" title="All 2 branches covered.">        if (!e.isDead()){</span>
+<span class="fc" id="L274">            this.rightED.getInfo(e);</span>
+<span class="fc" id="L275">            this.leftED.getInfo(e);</span>
+<span class="fc" id="L276">            this.upED.getInfo(e);</span>
+        }
+
+//        System.out.println(downE);
+<span class="fc" id="L280">    }</span>
+
+    @Override
+    public void reflect(){
+<span class="fc" id="L284">        this.xR.update(this);</span>
+<span class="fc" id="L285">        this.xL.update(this);</span>
+<span class="fc" id="L286">        this.yU.update(this);</span>
+<span class="fc" id="L287">        this.yD.update(this);</span>
+
+
+<span class="fc" id="L290">        rightED.update(this);</span>
+<span class="fc" id="L291">        upED.update(this);</span>
+<span class="fc" id="L292">        leftED.update(this);</span>
+<span class="fc" id="L293">    }</span>
+
+    @Override
+    public void think(){
+<span class="fc" id="L297">        this.rightB = this.xR.getBound() - 1;</span>
+<span class="fc" id="L298">        this.leftB = this.xL.getBound() + 1;</span>
+<span class="fc" id="L299">        this.upB = this.yU.getBound() + 1;</span>
+<span class="fc" id="L300">        this.downB = this.yD.getBound();</span>
+
+<span class="fc" id="L302">        leftE = this.leftED.getBound();</span>
+<span class="fc" id="L303">        rightE = this.rightED.getBound();</span>
+<span class="fc" id="L304">        upE = this.upED.getBound();</span>
+
+<span class="fc" id="L306">        isDamaged();</span>
+
+<span class="fc" id="L308">        this.xR.reset();</span>
+<span class="fc" id="L309">        this.xL.reset();</span>
+<span class="fc" id="L310">        this.yU.reset();</span>
+<span class="fc" id="L311">        this.yD.reset();</span>
+
+
+<span class="fc" id="L314">        rightED.reset();</span>
+<span class="fc" id="L315">        upED.reset();</span>
+<span class="fc" id="L316">        leftED.reset();</span>
+<span class="fc" id="L317">    }</span>
+
+    @Override
+    public int getHp() {
+<span class="fc" id="L321">        return this.Hp;</span>
+    }
+
+    @Override
+    public int setHp(int i) {
+<span class="fc" id="L326">        return this.Hp = i;</span>
+    }
+
+    @Override
+    public boolean damaged(int i) {
+<span class="nc" id="L331">        this.Hp -= i;</span>
+<span class="nc bnc" id="L332" title="All 2 branches missed.">        if (this.Hp &lt;= 0){</span>
+<span class="nc" id="L333">            this.dead = true;</span>
+        }
+<span class="nc" id="L335">        return true;</span>
+    }
+
+    @Override
+    public boolean isDead() {
+<span class="fc" id="L340">        return dead;</span>
+    }
+
+    @Override
+    public boolean isInRang(Enemy e){
+<span class="fc" id="L345">        this.downED.getInfo(e);</span>
+<span class="fc" id="L346">        downED.update(this);</span>
+<span class="fc" id="L347">        downE = this.downED.getBound();</span>
+//        System.out.println(downE);
+
+<span class="fc bfc" id="L350" title="All 4 branches covered.">        if ( ! ( posX + width &lt;= e.getXPos() || e.getXPos() + e.getWidth() &lt;= posX ) ){</span>
+//            System.out.println(downE);
+//            System.out.println(posY + height);
+<span class="fc bfc" id="L353" title="All 4 branches covered.">            if ( e.posY - (this.posY + this.height) &lt; 3 &amp;&amp; e.posY - (this.posY + this.height) &gt;= -1){</span>
+//                System.out.println(e.posY - (this.posY + this.height));
+//                System.out.println(&quot; posX + width &quot; + posX + width);
+//                System.out.println(&quot; e.getXPos() &quot;+ e.getXPos());
+//                System.out.println(&quot; e.getXPos() + e.getWidth() &quot; + e.getXPos() + e.getWidth());
+//                System.out.println(&quot; posX &quot;+ posX);
+//                System.out.println(&quot; e.posY &quot; + e.posY);
+//                System.out.println(&quot; this.posY + this.height &quot; + this.posY + this.height);
+//                System.out.println();
+<span class="fc" id="L362">                return true;</span>
+            }
+        }
+<span class="fc" id="L365">        downED.reset();</span>
+<span class="fc" id="L366">        return false;</span>
+    }
+
+    @Override
+    public boolean attack(Enemy e){
+<span class="fc" id="L371">        e.damaged(1);</span>
+<span class="fc" id="L372">        return true;</span>
+    }
+
+    public void revive(){
+<span class="fc" id="L376">        posX = oriX;</span>
+<span class="fc" id="L377">        posY = 330 - this.height;</span>
+<span class="fc" id="L378">        dead = false;</span>
+<span class="fc" id="L379">        life -= 1;</span>
+<span class="fc" id="L380">        System.out.println(&quot;life : &quot; + life);</span>
+<span class="fc" id="L381">    }</span>
+
+    @Override
+    public boolean isDamaged(){
+
+<span class="pc bpc" id="L386" title="1 of 2 branches missed.">        if (! (this.rightE &gt; posX + width)){</span>
+<span class="nc" id="L387">            damaged(1);</span>
+<span class="nc" id="L388">            return true;</span>
+//            System.out.println(&quot;!&quot;);
+<span class="pc bpc" id="L390" title="1 of 2 branches missed.">        }else if (! (posX &gt; leftE)){</span>
+//            System.out.println();
+//            System.out.println(rightE);
+//            System.out.println(leftE);
+//            System.out.println(upE);
+//            System.out.println();
+<span class="nc" id="L396">            damaged(1);</span>
+<span class="nc" id="L397">            return true;</span>
+//            System.out.println(&quot;!!&quot;);
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">        }else if ( ! (posY &gt; upE)){</span>
+<span class="nc" id="L400">            damaged(1);</span>
+<span class="nc" id="L401">            return  true;</span>
+//            System.out.println(upE);
+        }
+<span class="fc" id="L404">        return false;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.4.201905082037</span></div></body></html>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="stickman.model.TestGameEngine" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-10-06T12:42:20" hostname="BuiBuiBui.local" time="0.045">
+  <properties/>
+  <testcase name="firstTest" classname="stickman.model.TestGameEngine" time="0.045"/>
+  <system-out><![CDATA[src/main/java/stickman/LeveLinfo.json
+life : 3
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
